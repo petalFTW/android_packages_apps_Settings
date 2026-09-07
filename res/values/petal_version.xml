@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="petal_os_version">petalOS version</string>
+    <string name="petal_os_version_value" translatable="false">0.4.5</string>
+</resources>

@@ -20,7 +20,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.SystemClock
-import android.os.SystemProperties
 import android.os.UserHandle
 import android.os.UserManager
 import androidx.preference.Preference
@@ -44,7 +43,7 @@ class LineageVersionDetailPreference :
         get() = "lineage_version"
 
     override val title: Int
-        get() = org.lineageos.platform.internal.R.string.lineage_version
+        get() = R.string.petal_os_version
 
     override val indexable
         get() = false
@@ -63,7 +62,7 @@ class LineageVersionDetailPreference :
     }
 
     override fun getSummary(context: Context): CharSequence =
-        SystemProperties.get(LINEAGE_VERSION_PROPERTY, context.getString(R.string.unknown));
+        context.getString(R.string.petal_os_version_value)
 
     // return true swallows the click event, while return false will start the intent
     override fun onPreferenceClick(preference: Preference): Boolean {
@@ -101,8 +100,6 @@ class LineageVersionDetailPreference :
     companion object {
         const val ACTIVITY_TRIGGER_COUNT = 3
         const val DELAY_TIMER_MILLIS = 500L
-
-        const val LINEAGE_VERSION_PROPERTY: String = "ro.lineage.version"
 
         const val PLATLOGO_PACKAGE_NAME: String = "org.lineageos.lineageparts"
         const val PLATLOGO_ACTIVITY_CLASS: String = PLATLOGO_PACKAGE_NAME + ".logo.PlatLogoActivity"

@@ -26,8 +26,9 @@ import android.content.Context;
 import android.os.RemoteException;
 import android.view.IWindowManager;
 
-import androidx.preference.ListPreference;
 import androidx.preference.PreferenceScreen;
+
+import com.android.settingslib.widget.SliderPreference;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -42,23 +43,12 @@ import org.robolectric.util.ReflectionHelpers;
 public class AnimatorDurationScalePreferenceControllerTest {
 
     @Mock
-    private ListPreference mPreference;
+    private SliderPreference mPreference;
     @Mock
     private PreferenceScreen mScreen;
     @Mock
     private IWindowManager mWindowManager;
 
-    /**
-     * 0: Animation off
-     * 1: Animation scale .5x
-     * 2: Animation scale 1x
-     * 3: Animation scale 1.5x
-     * 4: Animation scale 2x
-     * 5: Animation scale 5x
-     * 6: Animation scale 10x
-     */
-    private String[] mListValues;
-    private String[] mListSummaries;
     private Context mContext;
     private AnimatorDurationScalePreferenceController mController;
 
@@ -66,10 +56,6 @@ public class AnimatorDurationScalePreferenceControllerTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         mContext = RuntimeEnvironment.application;
-        mListValues = mContext.getResources()
-            .getStringArray(com.android.settingslib.R.array.animator_duration_scale_values);
-        mListSummaries = mContext.getResources()
-            .getStringArray(com.android.settingslib.R.array.animator_duration_scale_entries);
         mController = new AnimatorDurationScalePreferenceController(mContext);
         ReflectionHelpers.setField(mController, "mWindowManager", mWindowManager);
         when(mScreen.findPreference(mController.getPreferenceKey())).thenReturn(mPreference);
@@ -84,33 +70,29 @@ public class AnimatorDurationScalePreferenceControllerTest {
     }
 
     @Test
-    public void onPreferenceChange_option5Selected_shouldSetOption5() throws RemoteException {
-        mController.onPreferenceChange(mPreference, mListValues[5]);
+    public void onPreferenceChange_progress100_shouldSetScale5() throws RemoteException {
+        mController.onPreferenceChange(mPreference, 100);
 
-        verify(mWindowManager).setAnimationScale(ANIMATOR_DURATION_SCALE_SELECTOR,
-                Float.valueOf(mListValues[5]));
+        verify(mWindowManager).setAnimationScale(ANIMATOR_DURATION_SCALE_SELECTOR, 5f);
     }
 
     @Test
-    public void updateState_option5Set_shouldUpdatePreferenceToOption5() throws RemoteException {
-        when(mWindowManager.getAnimationScale(ANIMATOR_DURATION_SCALE_SELECTOR))
-            .thenReturn(Float.valueOf(mListValues[5]));
+    public void updateState_scale5Set_shouldUpdatePreferenceToProgress100() throws RemoteException {
+        when(mWindowManager.getAnimationScale(ANIMATOR_DURATION_SCALE_SELECTOR)).thenReturn(5f);
 
         mController.updateState(mPreference);
 
-        verify(mPreference).setValue(mListValues[5]);
-        verify(mPreference).setSummary(mListSummaries[5]);
+        verify(mPreference).setValue(100);
     }
 
     @Test
-    public void updateState_option3Set_shouldUpdatePreferenceToOption3() throws RemoteException {
+    public void updateState_scale1_5Set_shouldUpdatePreferenceToProgress30() throws RemoteException {
         when(mWindowManager.getAnimationScale(ANIMATOR_DURATION_SCALE_SELECTOR))
-            .thenReturn(Float.valueOf(mListValues[3]));
+            .thenReturn(1.5f);
 
         mController.updateState(mPreference);
 
-        verify(mPreference).setValue(mListValues[3]);
-        verify(mPreference).setSummary(mListSummaries[3]);
+        verify(mPreference).setValue(30);
     }
 
     @Test

@@ -22,11 +22,14 @@ import android.os.ServiceManager;
 import android.view.IWindowManager;
 
 import androidx.annotation.VisibleForTesting;
-import androidx.preference.ListPreference;
 import androidx.preference.Preference;
+import androidx.preference.PreferenceScreen;
 
 import com.android.settings.core.PreferenceControllerMixin;
 import com.android.settingslib.development.DeveloperOptionsPreferenceController;
+import com.android.settingslib.widget.SliderPreference;
+
+import java.util.Locale;
 
 public class WindowAnimationScalePreferenceController extends
         DeveloperOptionsPreferenceController implements Preference.OnPreferenceChangeListener,
@@ -38,20 +41,20 @@ public class WindowAnimationScalePreferenceController extends
     static final int WINDOW_ANIMATION_SCALE_SELECTOR = 0;
     @VisibleForTesting
     static final float DEFAULT_VALUE = 1;
+    @VisibleForTesting
+    static final int MIN_PROGRESS = 0;
+    @VisibleForTesting
+    static final int MAX_PROGRESS = 200;
+
+    private static final int PROGRESS_PER_UNIT = 20;
 
     private final IWindowManager mWindowManager;
-    private final String[] mListValues;
-    private final String[] mListSummaries;
 
     public WindowAnimationScalePreferenceController(Context context) {
         super(context);
 
         mWindowManager = IWindowManager.Stub.asInterface(
                 ServiceManager.getService(Context.WINDOW_SERVICE));
-        mListValues = context.getResources()
-                .getStringArray(com.android.settingslib.R.array.window_animation_scale_values);
-        mListSummaries = context.getResources().getStringArray(
-                com.android.settingslib.R.array.window_animation_scale_entries);
     }
 
     @Override
@@ -60,8 +63,22 @@ public class WindowAnimationScalePreferenceController extends
     }
 
     @Override
+    public void displayPreference(PreferenceScreen screen) {
+        super.displayPreference(screen);
+
+        final SliderPreference preference = (SliderPreference) mPreference;
+        preference.setMin(MIN_PROGRESS);
+        preference.setMax(MAX_PROGRESS);
+        preference.setSliderIncrement(1);
+        preference.setUpdatesContinuously(true);
+        preference.setShowSliderValue(true);
+        preference.setLabelFormater(value ->
+                String.format(Locale.US, "%.2fx", value / (float) PROGRESS_PER_UNIT));
+    }
+
+    @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        writeAnimationScaleOption(newValue);
+        writeAnimationScaleOption((Integer) newValue);
         return true;
     }
 
@@ -76,9 +93,9 @@ public class WindowAnimationScalePreferenceController extends
         writeAnimationScaleOption(null);
     }
 
-    private void writeAnimationScaleOption(Object newValue) {
+    private void writeAnimationScaleOption(Integer progress) {
         try {
-            float scale = newValue != null ? Float.parseFloat(newValue.toString()) : DEFAULT_VALUE;
+            float scale = progress != null ? progress / (float) PROGRESS_PER_UNIT : DEFAULT_VALUE;
             mWindowManager.setAnimationScale(WINDOW_ANIMATION_SCALE_SELECTOR, scale);
             updateAnimationScaleValue();
         } catch (RemoteException e) {
@@ -89,17 +106,8 @@ public class WindowAnimationScalePreferenceController extends
     private void updateAnimationScaleValue() {
         try {
             final float scale = mWindowManager.getAnimationScale(WINDOW_ANIMATION_SCALE_SELECTOR);
-            int index = 0; // default
-            for (int i = 0; i < mListValues.length; i++) {
-                float val = Float.parseFloat(mListValues[i]);
-                if (scale <= val) {
-                    index = i;
-                    break;
-                }
-            }
-            final ListPreference listPreference = (ListPreference) mPreference;
-            listPreference.setValue(mListValues[index]);
-            listPreference.setSummary(mListSummaries[index]);
+            final int progress = Math.round(scale * PROGRESS_PER_UNIT);
+            ((SliderPreference) mPreference).setValue(progress);
         } catch (RemoteException e) {
             // intentional no-op
         }

@@ -20,7 +20,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.SystemClock;
-import android.os.SystemProperties;
 import android.os.UserHandle;
 import android.os.UserManager;
 import android.text.TextUtils;
@@ -41,8 +40,6 @@ public class LineageVersionDetailPreferenceController extends BasePreferenceCont
     private static final String TAG = "lineageVersionDialogCtrl";
     private static final int DELAY_TIMER_MILLIS = 500;
     private static final int ACTIVITY_TRIGGER_COUNT = 3;
-
-    private static final String KEY_LINEAGE_VERSION_PROP = "ro.lineage.version";
 
     private static final String PLATLOGO_PACKAGE_NAME = "org.lineageos.lineageparts";
     private static final String PLATLOGO_ACTIVITY_CLASS =
@@ -77,8 +74,7 @@ public class LineageVersionDetailPreferenceController extends BasePreferenceCont
 
     @Override
     public CharSequence getSummary() {
-        return SystemProperties.get(KEY_LINEAGE_VERSION_PROP,
-                mContext.getString(R.string.unknown));
+        return mContext.getString(R.string.petal_os_version_value);
     }
 
     @Override
@@ -112,9 +108,7 @@ public class LineageVersionDetailPreferenceController extends BasePreferenceCont
         return true;
     }
 
-    /**
-     * Copies the array onto itself to remove the oldest hit.
-     */
+    // Drop the oldest tap.
     @VisibleForTesting
     void arrayCopy() {
         System.arraycopy(mHits, 1, mHits, 0, mHits.length - 1);
