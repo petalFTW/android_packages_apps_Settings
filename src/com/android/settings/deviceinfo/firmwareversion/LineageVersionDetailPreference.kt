@@ -18,8 +18,6 @@ package com.android.settings.deviceinfo.firmwareversion
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
-import android.os.SystemClock
 import android.os.UserHandle
 import android.os.UserManager
 import androidx.preference.Preference
@@ -36,8 +34,6 @@ import com.android.settingslib.preference.PreferenceBinding
 class LineageVersionDetailPreference :
     PreferenceMetadata, PreferenceSummaryProvider, PreferenceBinding,
     Preference.OnPreferenceClickListener {
-
-    private val hits = LongArray(ACTIVITY_TRIGGER_COUNT)
 
     override val key: String
         get() = "lineage_version"
@@ -64,14 +60,9 @@ class LineageVersionDetailPreference :
     override fun getSummary(context: Context): CharSequence =
         context.getString(R.string.petal_os_version_value)
 
-    // return true swallows the click event, while return false will start the intent
+    // true eats the tap, false lets the intent fly
     override fun onPreferenceClick(preference: Preference): Boolean {
         if (Utils.isMonkeyRunning()) return true
-
-        // remove oldest hit and check whether there are 3 clicks within 500ms
-        for (index in 1..<ACTIVITY_TRIGGER_COUNT) hits[index - 1] = hits[index]
-        hits[ACTIVITY_TRIGGER_COUNT - 1] = SystemClock.uptimeMillis()
-        if (hits[ACTIVITY_TRIGGER_COUNT - 1] - hits[0] > DELAY_TIMER_MILLIS) return true
 
         val context = preference.context
         val userManager = context.getSystemService(Context.USER_SERVICE) as? UserManager
@@ -98,11 +89,9 @@ class LineageVersionDetailPreference :
     }
 
     companion object {
-        const val ACTIVITY_TRIGGER_COUNT = 3
-        const val DELAY_TIMER_MILLIS = 500L
-
-        const val PLATLOGO_PACKAGE_NAME: String = "org.lineageos.lineageparts"
-        const val PLATLOGO_ACTIVITY_CLASS: String = PLATLOGO_PACKAGE_NAME + ".logo.PlatLogoActivity"
+        // single tap now, it's a real page not an egg anymore
+        const val PLATLOGO_PACKAGE_NAME: String = "org.petalos.hub"
+        const val PLATLOGO_ACTIVITY_CLASS: String = PLATLOGO_PACKAGE_NAME + ".PetalVersionActivity"
     }
 }
 // LINT.ThenChange(LineageVersionDetailPreferenceController.java)

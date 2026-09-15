@@ -18,8 +18,6 @@ package com.android.settings.deviceinfo.firmwareversion;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
-import android.os.SystemClock;
 import android.os.UserHandle;
 import android.os.UserManager;
 import android.text.TextUtils;
@@ -38,15 +36,13 @@ import com.android.settingslib.RestrictedLockUtilsInternal;
 public class LineageVersionDetailPreferenceController extends BasePreferenceController {
 
     private static final String TAG = "lineageVersionDialogCtrl";
-    private static final int DELAY_TIMER_MILLIS = 500;
-    private static final int ACTIVITY_TRIGGER_COUNT = 3;
 
-    private static final String PLATLOGO_PACKAGE_NAME = "org.lineageos.lineageparts";
+    // single tap now, it's a real page not an egg anymore
+    private static final String PLATLOGO_PACKAGE_NAME = "org.petalos.hub";
     private static final String PLATLOGO_ACTIVITY_CLASS =
-            PLATLOGO_PACKAGE_NAME + ".logo.PlatLogoActivity";
+            PLATLOGO_PACKAGE_NAME + ".PetalVersionActivity";
 
     private final UserManager mUserManager;
-    private final long[] mHits = new long[ACTIVITY_TRIGGER_COUNT];
 
     private RestrictedLockUtils.EnforcedAdmin mFunDisallowedAdmin;
     private boolean mFunDisallowedBySystem;
@@ -85,33 +81,23 @@ public class LineageVersionDetailPreferenceController extends BasePreferenceCont
         if (Utils.isMonkeyRunning()) {
             return false;
         }
-        arrayCopy();
-        mHits[mHits.length - 1] = SystemClock.uptimeMillis();
-        if (mHits[0] >= (SystemClock.uptimeMillis() - DELAY_TIMER_MILLIS)) {
-            if (mUserManager.hasUserRestriction(UserManager.DISALLOW_FUN)) {
-                if (mFunDisallowedAdmin != null && !mFunDisallowedBySystem) {
-                    RestrictedLockUtils.sendShowAdminSupportDetailsIntent(mContext,
-                            mFunDisallowedAdmin);
-                }
-                Log.d(TAG, "Sorry, no fun for you!");
-                return true;
+        if (mUserManager.hasUserRestriction(UserManager.DISALLOW_FUN)) {
+            if (mFunDisallowedAdmin != null && !mFunDisallowedBySystem) {
+                RestrictedLockUtils.sendShowAdminSupportDetailsIntent(mContext,
+                        mFunDisallowedAdmin);
             }
+            Log.d(TAG, "Sorry, no fun for you!");
+            return true;
+        }
 
-            final Intent intent = new Intent(Intent.ACTION_MAIN)
-                     .setClassName(PLATLOGO_PACKAGE_NAME, PLATLOGO_ACTIVITY_CLASS);
-            try {
-                mContext.startActivity(intent);
-            } catch (Exception e) {
-                Log.e(TAG, "Unable to start activity " + intent.toString());
-            }
+        final Intent intent = new Intent(Intent.ACTION_MAIN)
+                 .setClassName(PLATLOGO_PACKAGE_NAME, PLATLOGO_ACTIVITY_CLASS);
+        try {
+            mContext.startActivity(intent);
+        } catch (Exception e) {
+            Log.e(TAG, "Unable to start activity " + intent.toString());
         }
         return true;
-    }
-
-    // Drop the oldest tap.
-    @VisibleForTesting
-    void arrayCopy() {
-        System.arraycopy(mHits, 1, mHits, 0, mHits.length - 1);
     }
 
     @VisibleForTesting

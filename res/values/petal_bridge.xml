@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- bridge crossfade step, moved out of the hub into dev options -->
+    <string name="bridge_transition_title">Transition Incrementation</string>
+    <string name="bridge_transition_summary">Music crossfade length</string>
+
+    <string-array name="bridge_transition_entries">
+        <item>2</item>
+        <item>4</item>
+        <item>6</item>
+        <item>8</item>
+        <item>10</item>
+    </string-array>
+    <string-array name="bridge_transition_values">
+        <item>2000</item>
+        <item>4000</item>
+        <item>6000</item>
+        <item>8000</item>
+        <item>10000</item>
+    </string-array>
+</resources>

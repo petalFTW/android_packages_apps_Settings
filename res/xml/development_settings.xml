@@ -709,6 +709,13 @@
             android:entries="@array/app_process_limit_entries"
             android:entryValues="@array/app_process_limit_values" />
 
+        <ListPreference
+            android:key="petal_bridge_fade_ms"
+            android:title="@string/bridge_transition_title"
+            android:summary="@string/bridge_transition_summary"
+            android:entries="@array/bridge_transition_entries"
+            android:entryValues="@array/bridge_transition_values" />
+
         <Preference
             android:key="background_check"
             android:fragment="com.android.settings.applications.appops.BackgroundCheckSummary"

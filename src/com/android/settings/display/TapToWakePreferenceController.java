@@ -22,10 +22,14 @@ import androidx.preference.TwoStatePreference;
 import com.android.settings.core.PreferenceControllerMixin;
 import com.android.settingslib.core.AbstractPreferenceController;
 
+import lineageos.hardware.LineageHardwareManager;
+import lineageos.hardware.TouchscreenGesture;
+
 public class TapToWakePreferenceController extends AbstractPreferenceController implements
         PreferenceControllerMixin, Preference.OnPreferenceChangeListener {
 
     private static final String KEY_TAP_TO_WAKE = "tap_to_wake";
+    private static final String DOUBLE_TAP_GESTURE = "Double tap";
 
     public TapToWakePreferenceController(Context context) {
         super(context);
@@ -54,6 +58,25 @@ public class TapToWakePreferenceController extends AbstractPreferenceController 
         boolean value = (Boolean) newValue;
         Settings.Secure.putInt(
                 mContext.getContentResolver(), Settings.Secure.DOUBLE_TAP_TO_WAKE, value ? 1 : 0);
+        // the power hal just farts at double tap here, the touch panel is the real switch
+        applyToTouchHal(value);
         return true;
+    }
+
+    private void applyToTouchHal(boolean enabled) {
+        final LineageHardwareManager hardware = LineageHardwareManager.getInstance(mContext);
+        if (!hardware.isSupported(LineageHardwareManager.FEATURE_TOUCHSCREEN_GESTURES)) {
+            return;
+        }
+        final TouchscreenGesture[] gestures = hardware.getTouchscreenGestures();
+        if (gestures == null) {
+            return;
+        }
+        for (final TouchscreenGesture gesture : gestures) {
+            if (DOUBLE_TAP_GESTURE.equals(gesture.name)) {
+                hardware.setTouchscreenGestureEnabled(gesture, enabled);
+                return;
+            }
+        }
     }
 }
