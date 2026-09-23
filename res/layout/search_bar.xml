@@ -25,13 +25,13 @@
         android:id="@+id/search_action_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="72dp"
+        android:minHeight="56dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
         android:focusedByDefault="true"
-        android:background="@drawable/search_bar_selected_background">
+        android:background="@drawable/petal_settings_searchbar">
 
         <ImageView
             android:id="@+id/imageView"
@@ -46,6 +46,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:paddingEnd="8dp"
-            android:text="@string/homepage_search"/>
+            android:text="@string/homepage_search"
+            android:fontFamily="@font/petal_rubik"
+            android:textColor="@color/petal_settings_secondary"/>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

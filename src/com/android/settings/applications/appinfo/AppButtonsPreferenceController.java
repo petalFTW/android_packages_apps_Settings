@@ -601,7 +601,8 @@ public class AppButtonsPreferenceController extends BasePreferenceController imp
         // by not allowing disabling of apps signed with the
         // system cert and any launcher app in the system.
         if (mHomePackages.contains(mAppEntry.info.packageName)
-                || isSystemPackage(mActivity.getResources(), mPm, mPackageInfo)) {
+                || (!"org.petalos.automation".equals(mAppEntry.info.packageName)
+                    && isSystemPackage(mActivity.getResources(), mPm, mPackageInfo))) {
             // Disable button for core system applications.
             mButtonsPref.setButton2Text(R.string.disable_text)
                     .setButton2Icon(R.drawable.ic_settings_disable);

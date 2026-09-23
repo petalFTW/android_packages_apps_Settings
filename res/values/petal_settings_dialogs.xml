@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<resources>
+    <style name="Theme.PetalSettings.Dialog" parent="Theme.AlertDialog">
+        <item name="android:windowBackground">@drawable/petal_settings_dialog</item>
+        <item name="android:colorBackground">@color/petal_settings_surface</item>
+        <item name="colorAccent">@color/petal_settings_accent</item>
+        <item name="android:fontFamily">@font/petal_rubik</item>
+        <item name="dialogCornerRadius">28dp</item>
+    </style>
+    <style name="Theme.PetalSettings.Dialog.Expressive" parent="Theme.AlertDialog.SettingsLib.Expressive">
+        <item name="android:windowBackground">@drawable/petal_settings_dialog</item>
+        <item name="android:colorBackground">@color/petal_settings_surface</item>
+        <item name="colorAccent">@color/petal_settings_accent</item>
+        <item name="android:fontFamily">@font/petal_rubik</item>
+        <item name="dialogCornerRadius">28dp</item>
+    </style>
+    <style name="Theme.PetalSettings.Dialog.Platform" parent="Theme.DeviceDefault.AlertDialog.SettingsLib.Expressive">
+        <item name="android:windowBackground">@drawable/petal_settings_dialog</item>
+        <item name="android:colorBackground">@color/petal_settings_surface</item>
+        <item name="android:colorAccent">@color/petal_settings_accent</item>
+        <item name="android:fontFamily">@font/petal_rubik</item>
+    </style>
+</resources>

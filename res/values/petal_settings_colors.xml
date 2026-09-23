@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<resources>
+    <color name="petal_settings_canvas">#F1F3F8</color>
+    <color name="petal_settings_surface">#FCFCFF</color>
+    <color name="petal_settings_text">#171921</color>
+    <color name="petal_settings_secondary">#646A79</color>
+    <color name="petal_settings_accent">#285ED4</color>
+    <color name="petal_settings_icon">#E6EDFF</color>
+    <color name="petal_settings_selected">#DDE7FD</color>
+    <color name="petal_settings_rim">#FFFFFF</color>
+    <color name="petal_settings_hero_end">#E9EEFA</color>
+    <color name="petal_settings_ripple">#203B7BFF</color>
+</resources>

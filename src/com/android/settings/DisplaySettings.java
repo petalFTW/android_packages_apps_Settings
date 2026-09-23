@@ -76,6 +76,12 @@ public class DisplaySettings extends DashboardFragment {
     }
 
     @Override
+    public void onViewCreated(@NonNull android.view.View view, @Nullable Bundle state) {
+        super.onViewCreated(view, state);
+        view.setBackgroundColor(getContext().getColor(R.color.petal_settings_canvas));
+    }
+
+    @Override
     public int getHelpResource() {
         return R.string.help_uri_display;
     }

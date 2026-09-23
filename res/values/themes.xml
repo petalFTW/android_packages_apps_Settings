@@ -18,7 +18,7 @@
     xmlns:androidprv="http://schemas.android.com/apk/prv/res/android">
 
     <style name="Transparent">
-        <item name="alertDialogTheme">@style/Theme.AlertDialog</item>
+        <item name="alertDialogTheme">@style/Theme.PetalSettings.Dialog</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
@@ -60,7 +60,7 @@
         <item name="preferenceBackgroundColor">@drawable/preference_background</item>
 
         <!-- For AndroidX AlertDialog -->
-        <item name="alertDialogTheme">@style/Theme.AlertDialog</item>
+        <item name="alertDialogTheme">@style/Theme.PetalSettings.Dialog</item>
 
         <item name="*android:lockPatternStyle">@style/LockPatternStyle</item>
 
@@ -204,7 +204,8 @@
         <!-- Homepage should follow device default design, the values is same as device default theme.-->
         <item name="android:navigationBarColor">@android:color/white</item>
         <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
-        <item name="android:colorBackground">@color/settingslib_materialColorSurfaceContainerLow</item>
+        <item name="android:colorBackground">@color/petal_settings_canvas</item>
+        <item name="android:windowBackground">@color/petal_settings_canvas</item>
     </style>
 
     <style name="Theme.Settings.Home.NoAnimation">

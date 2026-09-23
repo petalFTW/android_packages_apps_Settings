@@ -50,6 +50,9 @@ public class RoundCornerPreferenceAdapter extends PreferenceGroupAdapter {
         @Override
         public void run() {
             updatePreferences();
+            if ("top_level_settings".equals(mPreferenceGroup.getKey())) {
+                notifyDataSetChanged();
+            }
         }
     };
 
@@ -74,6 +77,10 @@ public class RoundCornerPreferenceAdapter extends PreferenceGroupAdapter {
     }
 
     protected @DrawableRes int getRoundCornerDrawableRes(int position, boolean isSelected) {
+        if ("top_level_settings".equals(mPreferenceGroup.getKey())) {
+            return com.android.settings.widget.PetalPreferenceStyle.background(
+                    this, position, isSelected);
+        }
         int CornerType = mRoundCornerMappingList.get(position);
 
         if ((CornerType & ROUND_CORNER_CENTER) == 0) {

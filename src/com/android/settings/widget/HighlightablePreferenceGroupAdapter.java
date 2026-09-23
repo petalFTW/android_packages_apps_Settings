@@ -100,11 +100,27 @@ public class HighlightablePreferenceGroupAdapter extends SettingsPreferenceGroup
         screen.setInitialExpandedChildrenCount(initialCount);
     }
 
+    private final boolean mPetalDisplay;
+    private final android.os.Handler mPetalHandler =
+            new android.os.Handler(android.os.Looper.getMainLooper());
+    private final Runnable mPetalRefresh = this::notifyDataSetChanged;
+
+    @Override
+    public void onPreferenceHierarchyChange(Preference preference) {
+        super.onPreferenceHierarchyChange(preference);
+        if (mPetalDisplay) {
+            // Run after the adapter rebuilds its visible list, including in the legacy theme.
+            mPetalHandler.removeCallbacks(mPetalRefresh);
+            mPetalHandler.post(mPetalRefresh);
+        }
+    }
+
     public HighlightablePreferenceGroupAdapter(
             @NonNull PreferenceGroup preferenceGroup,
             @Nullable String key,
             boolean highlightRequested) {
         super(preferenceGroup);
+        mPetalDisplay = "display_settings_screen".equals(preferenceGroup.getKey());
         mHighlightKey = key;
         mHighlightRequested = highlightRequested;
         mContext = preferenceGroup.getContext();
@@ -116,6 +132,29 @@ public class HighlightablePreferenceGroupAdapter extends SettingsPreferenceGroup
     @Override
     public void onBindViewHolder(@NonNull PreferenceViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
+        if (mPetalDisplay) {
+            View row = holder.itemView;
+            int paddingTop = row.getPaddingTop();
+            int paddingBottom = row.getPaddingBottom();
+            row.setBackgroundResource(PetalPreferenceStyle.background(this, position, false));
+            int inset = (int) (32 * row.getResources().getDisplayMetrics().density);
+            row.setPaddingRelative(inset, paddingTop, inset, paddingBottom);
+            android.widget.TextView title = row.findViewById(android.R.id.title);
+            android.widget.TextView summary = row.findViewById(android.R.id.summary);
+            if (title != null) {
+                title.setTypeface(row.getResources().getFont(R.font.petal_rubik));
+                if (getItem(position) instanceof androidx.preference.PreferenceCategory) {
+                    title.setTextColor(mContext.getColor(R.color.petal_settings_secondary));
+                } else {
+                    title.setTextColor(
+                            mContext.getColorStateList(R.color.petal_settings_text_states));
+                }
+            }
+            if (summary != null) {
+                summary.setTextColor(
+                        mContext.getColorStateList(R.color.petal_settings_secondary_states));
+            }
+        }
         updateBackground(holder, position);
     }
 
@@ -421,6 +460,10 @@ public class HighlightablePreferenceGroupAdapter extends SettingsPreferenceGroup
     }
 
     private @DrawableRes int getBackgroundRes(int position, boolean isHighlighted) {
+        if (mPetalDisplay) {
+            int surface = PetalPreferenceStyle.background(this, position, isHighlighted);
+            if (surface != 0) return surface;
+        }
         int backgroundRes = (isHighlighted) ? mHighlightBackgroundRes : mNormalBackgroundRes;
         if (SettingsThemeHelper.isExpressiveTheme(mContext)) {
             Log.d(TAG, "[Expressive Theme] get rounded background, highlight = " + isHighlighted);

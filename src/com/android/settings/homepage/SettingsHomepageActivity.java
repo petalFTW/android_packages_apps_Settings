@@ -392,12 +392,17 @@ public class SettingsHomepageActivity extends FragmentActivity implements
                     // Apply the insets paddings to the view.
                     v.setPadding(insets.left, 0, insets.right, insets.bottom);
 
-                    // reset the top padding of search bar container to original top padding
-                    // plus insets top.
+                    // petalOS: put the status bar inset on the app bar so the big title
+                    // clears the status bar; the search container only needs its own gap.
+                    View appBar = findViewById(R.id.app_bar);
+                    if (appBar != null) {
+                        appBar.setPadding(appBar.getPaddingLeft(), insets.top,
+                                appBar.getPaddingRight(), appBar.getPaddingBottom());
+                    }
                     View container = findViewById(R.id.app_bar_container);
                     final int top_padding = getResources().getDimensionPixelSize(
                             R.dimen.search_bar_container_top_padding);
-                    container.setPadding(container.getPaddingLeft(), top_padding + insets.top,
+                    container.setPadding(container.getPaddingLeft(), top_padding,
                             container.getPaddingRight(), container.getPaddingBottom());
 
                     // Return CONSUMED if you don't want the window insets to keep being
@@ -428,9 +433,7 @@ public class SettingsHomepageActivity extends FragmentActivity implements
         }
 
         final Window window = getWindow();
-        final int color = mIsTwoPane
-                ? getColor(R.color.settings_two_pane_background_color)
-                : Utils.getColorAttrDefaultColor(this, android.R.attr.colorBackground);
+        final int color = getColor(R.color.petal_settings_canvas);
 
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 

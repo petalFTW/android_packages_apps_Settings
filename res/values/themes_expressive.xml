@@ -18,9 +18,9 @@
     xmlns:androidprv="http://schemas.android.com/apk/prv/res/android">
 
     <style name="Transparent.Expressive">
-        <item name="alertDialogTheme">@style/Theme.AlertDialog.SettingsLib.Expressive</item>
+        <item name="alertDialogTheme">@style/Theme.PetalSettings.Dialog.Expressive</item>
         <!-- For AlertDialog -->
-        <item name="android:alertDialogTheme">@style/Theme.DeviceDefault.AlertDialog.SettingsLib.Expressive</item>
+        <item name="android:alertDialogTheme">@style/Theme.PetalSettings.Dialog.Platform</item>
     </style>
 
     <style name="Theme.Settings.Expressive" parent="Theme.SettingsBase.Expressive">
@@ -54,9 +54,9 @@
         <item name="preferenceBackgroundColor">@drawable/preference_background</item>
 
         <!-- For AndroidX AlertDialog -->
-        <item name="alertDialogTheme">@style/Theme.AlertDialog.SettingsLib.Expressive</item>
+        <item name="alertDialogTheme">@style/Theme.PetalSettings.Dialog.Expressive</item>
         <!-- For AlertDialog -->
-        <item name="android:alertDialogTheme">@style/Theme.DeviceDefault.AlertDialog.SettingsLib.Expressive</item>
+        <item name="android:alertDialogTheme">@style/Theme.PetalSettings.Dialog.Platform</item>
 
         <item name="*android:lockPatternStyle">@style/LockPatternStyleExpressive</item>
 
@@ -90,7 +90,8 @@
     </style>
 
     <style name="Theme.Settings.Home.Expressive" parent="Theme.Settings.Expressive.NoActionBar">
-        <item name="android:colorBackground">@color/settingslib_materialColorSurfaceContainer</item>
+        <item name="android:colorBackground">@color/petal_settings_canvas</item>
+        <item name="android:windowBackground">@color/petal_settings_canvas</item>
     </style>
 
     <style name="Theme.LockSettings.Expressive" parent="Theme.SubSettings.Expressive">

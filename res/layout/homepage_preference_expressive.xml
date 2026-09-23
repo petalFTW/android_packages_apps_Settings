@@ -19,8 +19,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
-    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+    android:paddingStart="32dp"
+    android:paddingEnd="32dp"
     android:minHeight="72dp"
     android:gravity="center_vertical"
     android:background="?android:attr/selectableItemBackground"
@@ -35,13 +35,16 @@
         android:minHeight="40dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingStart="16dp">
+        android:paddingStart="0dp">
 
         <androidx.preference.internal.PreferenceImageView
             android:id="@android:id/icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:scaleType="centerInside"/>
+            android:scaleType="centerInside"
+            android:padding="8dp"
+            android:background="@drawable/petal_settings_icon"
+            android:tint="@color/petal_settings_accent_states"/>
 
     </LinearLayout>
 
@@ -52,7 +55,7 @@
         android:layout_weight="1"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
-        android:paddingStart="@dimen/homepage_preference_text_padding_start_expressive"
+        android:paddingStart="14dp"
         android:paddingEnd="16dp">
 
         <TextView
@@ -61,10 +64,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:textAlignment="viewStart"
-            android:singleLine="true"
+            android:fontFamily="@font/petal_rubik"
+            android:textSize="16sp"
             android:textAppearance="?android:attr/textAppearanceListItem"
-            android:textColor="@color/settingslib_text_color_primary"
-            android:ellipsize="marquee"/>
+            android:textColor="@color/petal_settings_text_states"
+            />
 
         <TextView
             android:id="@android:id/summary"
@@ -75,8 +79,9 @@
             android:layout_gravity="start"
             android:textAlignment="viewStart"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/settingslib_text_color_secondary"
-            android:maxLines="4"
+            android:textColor="@color/petal_settings_secondary_states"
+            android:fontFamily="@font/petal_rubik"
+            android:textSize="13sp"
             style="@style/PreferenceSummaryTextStyle"/>
     </RelativeLayout>
 
@@ -128,4 +133,5 @@
         </FrameLayout>
 
     </FrameLayout>
+    <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/petal_settings_chevron" android:importantForAccessibility="no"/>
 </LinearLayout>

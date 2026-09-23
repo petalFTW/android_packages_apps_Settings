@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<resources>
+    <string name="petal_settings_hub_title">Your petalOS</string>
+    <string name="petal_settings_hub_summary">Island, lock screen and system appearance</string>
+    <string name="petal_settings_connections">Connections</string>
+    <string name="petal_settings_appearance">Appearance &amp; sound</string>
+    <string name="petal_settings_device">Device</string>
+    <string name="petal_settings_privacy">Privacy &amp; safety</string>
+    <string name="petal_settings_system">Personal &amp; system</string>
+    <dimen name="petal_settings_corner">24dp</dimen>
+</resources>

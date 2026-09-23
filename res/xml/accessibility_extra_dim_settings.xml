@@ -63,6 +63,28 @@
             android:title="@string/reduce_bright_colors_shortcut_title"
             settings:controller="com.android.settings.accessibility.ToggleShortcutPreferenceController" />
 
+        <!-- petalOS: run extra dim on a schedule, same idea as night light -->
+        <SwitchPreferenceCompat
+            android:key="reduce_bright_colors_schedule"
+            android:persistent="false"
+            android:title="Schedule"
+            settings:searchable="false"
+            settings:controller="com.android.settings.accessibility.detail.extradim.ExtraDimSchedulePreferenceController" />
+
+        <Preference
+            android:key="reduce_bright_colors_start_time"
+            android:persistent="false"
+            android:title="Start time"
+            settings:searchable="false"
+            settings:controller="com.android.settings.accessibility.detail.extradim.ExtraDimStartTimePreferenceController" />
+
+        <Preference
+            android:key="reduce_bright_colors_end_time"
+            android:persistent="false"
+            android:title="End time"
+            settings:searchable="false"
+            settings:controller="com.android.settings.accessibility.detail.extradim.ExtraDimEndTimePreferenceController" />
+
     </PreferenceCategory>
 
     <com.android.settings.accessibility.AccessibilityFooterPreference

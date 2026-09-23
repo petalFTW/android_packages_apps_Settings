@@ -95,6 +95,29 @@ public class TopLevelSettings extends DashboardFragment implements SplitLayoutLi
     }
 
     @Override
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        super.onCreatePreferences(savedInstanceState, rootKey);
+        // petalOS: android:layout on the top level xml isnt sticking on this build, so force the
+        // hub card and category surfaces here where setLayoutResource actually takes.
+        PreferenceScreen screen = getPreferenceScreen();
+        if (screen != null) {
+            applyPetalLayouts(screen);
+        }
+    }
+
+    private void applyPetalLayouts(PreferenceGroup group) {
+        for (int i = 0; i < group.getPreferenceCount(); i++) {
+            Preference pref = group.getPreference(i);
+            if ("petal_settings_hub".equals(pref.getKey())) {
+                pref.setLayoutResource(R.layout.petal_settings_hub);
+            } else if (pref instanceof PreferenceCategory) {
+                pref.setLayoutResource(R.layout.petal_settings_category);
+                applyPetalLayouts((PreferenceCategory) pref);
+            }
+        }
+    }
+
+    @Override
     protected String getLogTag() {
         return TAG;
     }

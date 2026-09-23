@@ -1,0 +1,5 @@
+<?xml version="1.0" ?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/petal_settings_icon"/>
+    <corners android:radius="13dp"/>
+</shape>

@@ -10,9 +10,11 @@ license {
     visibility: [":__subpackages__"],
     license_kinds: [
         "SPDX-license-identifier-Apache-2.0",
+        "SPDX-license-identifier-OFL-1.1",
     ],
     license_text: [
         "NOTICE",
+        "licenses/Rubik-OFL.txt",
     ],
 }
 

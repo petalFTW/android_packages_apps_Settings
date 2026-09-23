@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="112dp" android:paddingStart="36dp" android:paddingEnd="32dp" android:paddingTop="26dp" android:paddingBottom="26dp" android:gravity="center_vertical">
+    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+        <TextView android:id="@android:id/title" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="22sp" android:fontFamily="@font/petal_rubik" android:textColor="@color/petal_settings_text_states"/>
+        <TextView android:id="@android:id/summary" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:textSize="13sp" android:fontFamily="@font/petal_rubik" android:textColor="@color/petal_settings_secondary_states"/>
+    </LinearLayout>
+    <ImageView android:layout_width="52dp" android:layout_height="36dp" android:layout_marginStart="12dp" android:src="@drawable/petal_settings_island" android:importantForAccessibility="no"/>
+</LinearLayout>

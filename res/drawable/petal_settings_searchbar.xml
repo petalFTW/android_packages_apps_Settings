@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<!-- petalOS search bar surface: a soft diagonal sheen so the pill reads like the
+     island glass, with the MaterialCard stroke providing the rim. -->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?android:attr/colorControlHighlight">
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="315"
+                android:startColor="@color/petal_settings_surface"
+                android:endColor="@color/petal_settings_hero_end" />
+            <corners android:radius="22dp" />
+        </shape>
+    </item>
+</ripple>

@@ -22,6 +22,7 @@
     settings:keywords="@string/keywords_display">
 
     <PreferenceCategory
+        android:layout="@layout/petal_settings_category"
         android:key="category_brightness"
         android:title="@string/category_name_brightness"
         android:order="-200">
@@ -53,6 +54,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:layout="@layout/petal_settings_category"
         android:key="category_lock_display"
         android:title="@string/category_name_lock_display"
         android:order="-190">
@@ -97,6 +99,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:layout="@layout/petal_settings_category"
         android:key="category_key_appearance"
         android:title="@string/category_name_appearance"
         android:order="-180">
@@ -119,6 +122,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:layout="@layout/petal_settings_category"
         android:key="category_key_color"
         android:title="@string/category_name_color"
         android:order="-170">
@@ -153,6 +157,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:layout="@layout/petal_settings_category"
         android:key="category_other"
         android:title="@string/category_name_display_controls"
         android:order="-150">
