@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2026 petalOS; SPDX-License-Identifier: Apache-2.0 -->
+<resources>
+    <string name="petal_recents_refraction_title">Experimental recents refraction</string>
+    <string name="petal_recents_refraction_summary">Use backdrop blur and refraction instead of the lightweight sheen on recents app chips. May reduce scrolling performance.</string>
+    <string name="petal_spoof_title">App state spoofing</string>
+    <string name="petal_spoof_summary">Choose what this app is told about location, Bluetooth and battery restrictions</string>
+    <string name="petal_spoof_explanation">Make selected checks inside this app report an enabled or unrestricted state. This can help with permission prompts, but apps may use other checks too. Your real settings, permissions and location stay the same.</string>
+    <string name="petal_spoof_reported_category">What this app is told</string>
+    <string name="petal_spoof_real_category">Settings that really change app behaviour</string>
+    <string name="petal_spoof_bluetooth">Pretend Bluetooth is on</string>
+    <string name="petal_spoof_bluetooth_description">Tell the app Bluetooth is on when it checks. Does not turn on Bluetooth, connect devices or allow scanning.</string>
+    <string name="petal_spoof_location">Pretend location is on</string>
+    <string name="petal_spoof_location_description">Tell the app location and existing location providers are enabled. Does not turn on location, provide a fix or change your coordinates.</string>
+    <string name="petal_spoof_location_permission">Pretend location is allowed all the time</string>
+    <string name="petal_spoof_location_permission_description">Tell the app its background-location permission is granted when it checks itself. Does not let it access location in the background. Location access while using the app must already be allowed.</string>
+    <string name="petal_spoof_location_permission_not_requested">Unavailable: this app does not request the background-location permission.</string>
+    <string name="petal_spoof_location_permission_not_granted">Unavailable: first allow location while using this app in App permissions.</string>
+    <string name="petal_spoof_battery">Pretend battery optimization is off</string>
+    <string name="petal_spoof_battery_description">Tell the app it is exempt from Android battery optimization. Android can still limit it when the phone is idle.</string>
+    <string name="petal_spoof_background">Pretend background use is unrestricted</string>
+    <string name="petal_spoof_background_description">Tell the app it is not background-restricted. Does not remove background limits or keep the app running.</string>
+    <string name="petal_spoof_standby">Pretend the app is active</string>
+    <string name="petal_spoof_standby_description">Tell the app it is not inactive and its standby bucket is Active. Android still uses its real bucket for jobs, alarms and background limits.</string>
+    <string name="petal_spoof_actual_and_reported">%1$s\nReal setting: %2$s\nWhen to pretend: %3$s</string>
+    <string name="petal_spoof_when_title">When does pretending apply?</string>
+    <string name="petal_spoof_when_summary">Never: return the real state.\nAlways: use the pretend state whenever the app checks.\nWhile active: apply while Android considers the app foreground, including foreground services.\nWhile in Recents: apply while any of its tasks remain in Recents, even after leaving the app. Swipe them all away to stop.\n\nThese rules do not launch the app or keep it alive. An app may need reopening if it remembers an earlier check.</string>
+    <string name="petal_spoof_on">On</string>
+    <string name="petal_spoof_off">Off</string>
+    <string name="petal_spoof_granted">Allowed</string>
+    <string name="petal_spoof_denied">Not allowed</string>
+    <string name="petal_spoof_exempt">Exempt from battery optimization</string>
+    <string name="petal_spoof_optimized">Subject to battery optimization</string>
+    <string name="petal_spoof_unrestricted">Not background-restricted</string>
+    <string name="petal_spoof_restricted">Background-restricted</string>
+    <string name="petal_spoof_standby_active">Active</string>
+    <string name="petal_spoof_standby_exempted">Exempt from standby limits</string>
+    <string name="petal_spoof_standby_working">Working set</string>
+    <string name="petal_spoof_standby_frequent">Frequent</string>
+    <string name="petal_spoof_standby_rare">Rare</string>
+    <string name="petal_spoof_standby_restricted">Restricted</string>
+    <string name="petal_spoof_standby_never">Never used</string>
+    <string name="petal_spoof_unavailable">Unavailable</string>
+    <string name="petal_spoof_write_error">Could not save the spoofed state. No new setting was applied.</string>
+    <string name="petal_spoof_real_battery">Battery and background usage</string>
+    <string name="petal_spoof_real_battery_summary">Open Android battery settings to change this app’s real background limits. Choosing Unrestricted can increase battery use.</string>
+    <string name="petal_spoof_idle_exempt">Exclude from PetalPower idle restrictions</string>
+    <string name="petal_spoof_idle_exempt_summary">Really stop PetalPower from restricting this app when the screen is off. Other Android limits, manually blocked network access and phone-wide scanning settings still apply.</string>
+    <string name="petal_spoof_idle_restore_error">Some earlier PetalPower restrictions could not be removed. Turn the screen on or change this switch again to retry.</string>
+    <string-array name="petal_spoof_modes">
+        <item>Never — use the real state</item>
+        <item>Always — whenever the app checks</item>
+        <item>While active — includes foreground services</item>
+        <item>While in Recents — until all app tasks are removed</item>
+    </string-array>
+    <string-array name="petal_spoof_mode_values">
+        <item>0</item><item>1</item><item>2</item><item>3</item>
+    </string-array>
+</resources>

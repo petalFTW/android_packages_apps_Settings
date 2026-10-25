@@ -159,6 +159,7 @@ public class SettingsBaseActivity extends FragmentActivity implements CategoryHa
             return;
         }
         setActionBar(toolbar);
+        applyPetalPageStyle(toolbar);
 
         getToolbarDelegate().initToolbarPrimaryButton(
                 findViewById(com.android.settingslib.collapsingtoolbar.R.id.primary_button));
@@ -173,6 +174,23 @@ public class SettingsBaseActivity extends FragmentActivity implements CategoryHa
 
         if (DEBUG_TIMING) {
             Log.d(TAG, "onCreate took " + (System.currentTimeMillis() - startTime) + " ms");
+        }
+    }
+
+    private void applyPetalPageStyle(Toolbar toolbar) {
+        final int canvas = getColor(R.color.petal_settings_canvas);
+        final int text = getColor(R.color.petal_settings_text);
+        findViewById(R.id.content_parent).setBackgroundColor(canvas);
+        toolbar.setBackgroundColor(canvas);
+        toolbar.setTitleTextColor(text);
+        toolbar.setSubtitleTextColor(getColor(R.color.petal_settings_secondary));
+        if (mAppBarLayout != null) mAppBarLayout.setBackgroundColor(canvas);
+        if (mCollapsingToolbarLayout != null) {
+            mCollapsingToolbarLayout.setBackgroundColor(canvas);
+            mCollapsingToolbarLayout.setContentScrimColor(canvas);
+            mCollapsingToolbarLayout.setStatusBarScrimColor(canvas);
+            mCollapsingToolbarLayout.setCollapsedTitleTextColor(text);
+            mCollapsingToolbarLayout.setExpandedTitleColor(text);
         }
     }
 

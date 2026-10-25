@@ -27,7 +27,6 @@ import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 
 import androidx.annotation.DrawableRes;
@@ -100,16 +99,19 @@ public class HighlightablePreferenceGroupAdapter extends SettingsPreferenceGroup
         screen.setInitialExpandedChildrenCount(initialCount);
     }
 
-    private final boolean mPetalDisplay;
+    private final boolean mPetalStyle;
+    private final boolean mPetalHomepage;
     private final android.os.Handler mPetalHandler =
             new android.os.Handler(android.os.Looper.getMainLooper());
     private final Runnable mPetalRefresh = this::notifyDataSetChanged;
 
     @Override
     public void onPreferenceHierarchyChange(Preference preference) {
+        if (mPetalStyle && preference instanceof PreferenceGroup) {
+            PetalPreferenceStyle.applyCategoryLayouts((PreferenceGroup) preference);
+        }
         super.onPreferenceHierarchyChange(preference);
-        if (mPetalDisplay) {
-            // Run after the adapter rebuilds its visible list, including in the legacy theme.
+        if (mPetalStyle) {
             mPetalHandler.removeCallbacks(mPetalRefresh);
             mPetalHandler.post(mPetalRefresh);
         }
@@ -119,12 +121,20 @@ public class HighlightablePreferenceGroupAdapter extends SettingsPreferenceGroup
             @NonNull PreferenceGroup preferenceGroup,
             @Nullable String key,
             boolean highlightRequested) {
+        this(preferenceGroup, key, highlightRequested, false);
+    }
+
+    public HighlightablePreferenceGroupAdapter(
+            @NonNull PreferenceGroup preferenceGroup,
+            @Nullable String key,
+            boolean highlightRequested,
+            boolean petalStyle) {
         super(preferenceGroup);
-        mPetalDisplay = "display_settings_screen".equals(preferenceGroup.getKey());
+        mPetalStyle = petalStyle;
+        mPetalHomepage = "top_level_settings".equals(preferenceGroup.getKey());
         mHighlightKey = key;
         mHighlightRequested = highlightRequested;
         mContext = preferenceGroup.getContext();
-        final TypedValue outValue = new TypedValue();
         mNormalBackgroundRes = R.drawable.preference_background;
         mHighlightBackgroundRes = R.drawable.preference_background_highlighted;
     }
@@ -132,17 +142,37 @@ public class HighlightablePreferenceGroupAdapter extends SettingsPreferenceGroup
     @Override
     public void onBindViewHolder(@NonNull PreferenceViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        if (mPetalDisplay) {
+        if (mPetalStyle) {
             View row = holder.itemView;
             int paddingTop = row.getPaddingTop();
             int paddingBottom = row.getPaddingBottom();
-            row.setBackgroundResource(PetalPreferenceStyle.background(this, position, false));
-            int inset = (int) (32 * row.getResources().getDisplayMetrics().density);
-            row.setPaddingRelative(inset, paddingTop, inset, paddingBottom);
+            int surface = PetalPreferenceStyle.background(this, position, false);
+            if (surface == 0
+                    && !(getItem(position) instanceof androidx.preference.PreferenceCategory)) {
+                updateBackground(holder, position);
+                return;
+            }
+            if (surface != 0) {
+                row.setBackgroundResource(surface);
+                int inset = (int) (32 * row.getResources().getDisplayMetrics().density);
+                if (!mPetalHomepage) {
+                    int vertical = row.getResources().getDimensionPixelSize(
+                            R.dimen.petal_settings_row_vertical_padding);
+                    paddingTop = Math.max(paddingTop, vertical);
+                    paddingBottom = Math.max(paddingBottom, vertical);
+                    row.setMinimumHeight(Math.max(row.getMinimumHeight(),
+                            row.getResources().getDimensionPixelSize(
+                                    R.dimen.petal_settings_row_min_height)));
+                }
+                row.setPaddingRelative(inset, paddingTop, inset, paddingBottom);
+            }
             android.widget.TextView title = row.findViewById(android.R.id.title);
             android.widget.TextView summary = row.findViewById(android.R.id.summary);
             if (title != null) {
-                title.setTypeface(row.getResources().getFont(R.font.petal_rubik));
+                String family = row.getResources().getString(
+                        com.android.internal.R.string.config_bodyFontFamily);
+                title.setTypeface(android.graphics.Typeface.create(family,
+                        android.graphics.Typeface.NORMAL));
                 if (getItem(position) instanceof androidx.preference.PreferenceCategory) {
                     title.setTextColor(mContext.getColor(R.color.petal_settings_secondary));
                 } else {
@@ -156,6 +186,12 @@ public class HighlightablePreferenceGroupAdapter extends SettingsPreferenceGroup
             }
         }
         updateBackground(holder, position);
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
+        mPetalHandler.removeCallbacks(mPetalRefresh);
+        super.onDetachedFromRecyclerView(recyclerView);
     }
 
     @VisibleForTesting
@@ -460,7 +496,7 @@ public class HighlightablePreferenceGroupAdapter extends SettingsPreferenceGroup
     }
 
     private @DrawableRes int getBackgroundRes(int position, boolean isHighlighted) {
-        if (mPetalDisplay) {
+        if (mPetalStyle) {
             int surface = PetalPreferenceStyle.background(this, position, isHighlighted);
             if (surface != 0) return surface;
         }

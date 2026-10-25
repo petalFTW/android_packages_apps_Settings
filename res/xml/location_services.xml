@@ -34,4 +34,13 @@
             android:title="@string/location_scanning_bluetooth_always_scanning_title"
             settings:controller="com.android.settings.location.LocationServicesBluetoothScanningPreferenceController"/>
 
+        <ListPreference
+            android:key="network_location"
+            android:order="1002"
+            android:title="@string/petal_network_location_title"
+            android:dialogTitle="@string/petal_network_location_title"
+            android:entries="@array/petal_network_location_entries"
+            android:entryValues="@array/petal_network_location_values"
+            settings:controller="com.android.settings.location.NetworkLocationPreferenceController"/>
+
 </PreferenceScreen>

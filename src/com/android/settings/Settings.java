@@ -66,6 +66,40 @@ import com.google.android.setupdesign.util.ThemeHelper;
  */
 public class Settings extends SettingsActivity {
 
+    // the one stable settings door, petalOS edition
+    public static class PetalHomepageActivity extends android.app.Activity {
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            Intent original = getIntent();
+            boolean useAosp = android.provider.Settings.System.getInt(getContentResolver(),
+                    "petal_settings_default", 1) == 0
+                    || original.hasExtra(SettingsActivity.EXTRA_SHOW_FRAGMENT)
+                    || original.hasExtra(android.provider.Settings
+                            .EXTRA_SETTINGS_EMBEDDED_DEEP_LINK_INTENT_URI)
+                    || android.provider.Settings.Global.getInt(getContentResolver(),
+                            android.provider.Settings.Global.DEVICE_PROVISIONED, 0) == 0;
+            if (!useAosp) {
+                try {
+                    startActivity(new Intent(Intent.ACTION_MAIN).setClassName(
+                            "org.petalos.settings.prism",
+                            "org.petalos.settings.prism.PrismSettingsActivity"));
+                    finish();
+                    return;
+                } catch (ActivityNotFoundException | SecurityException unavailable) {
+                    Log.w("PetalSettings", "Front end unavailable; opening AOSP Settings",
+                            unavailable);
+                }
+            }
+            // Launcher task reuse ate the redirect. Give the homepage its own bloody root.
+            startActivity(new Intent(original).setClass(
+                    this, com.android.settings.homepage.SettingsHomepageActivity.class)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                            | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            finish();
+        }
+    }
+
     /*
     * Settings subclasses for launching independently.
     */

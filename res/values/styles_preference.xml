@@ -20,6 +20,7 @@
 <resources>
 
     <style name="SettingsPreferenceTheme" parent="@style/PreferenceTheme.SettingsLib">
+        <item name="preferenceCategoryStyle">@style/PetalSettingsCategoryPreference</item>
         <item name="cardPreferenceStyle">@style/CardPreference</item>
         <item name="slicePreferenceStyle">@style/SlicePreference</item>
         <item name="seekBarPreferenceStyle">@style/SettingsSeekBarPreference</item>
@@ -27,7 +28,12 @@
         <item name="preferenceFragmentCompatStyle">@style/SettingsPreferenceFragmentStyle</item>
     </style>
 
+    <style name="PetalSettingsCategoryPreference" parent="@style/Preference.Category.Material">
+        <item name="android:layout">@layout/petal_settings_category</item>
+    </style>
+
     <style name="PreferenceTheme.SetupWizard" parent="@style/SettingsPreferenceTheme">
+        <item name="preferenceCategoryStyle">@style/SettingsCategoryPreference.SettingsLib</item>
         <item name="preferenceFragmentCompatStyle">@style/SetupWizardPreferenceFragmentStyle</item>
     </style>
 

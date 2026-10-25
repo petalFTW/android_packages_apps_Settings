@@ -29,6 +29,8 @@
     </style>
 
     <style name="Theme.Settings" parent="Theme.SettingsBase">
+        <item name="android:fontFamily">@*android:string/config_bodyFontFamily</item>
+        <item name="android:colorAccent">@color/petal_settings_accent</item>
         <item name="android:clipToPadding">false</item>
         <item name="android:clipChildren">false</item>
         <item name="preferenceTheme">@style/SettingsPreferenceTheme</item>
@@ -80,7 +82,7 @@
         <item name="notification_importance_button_foreground_color_selected">@androidprv:color/materialColorOnSecondaryContainer</item>
 
         <!-- For AppCompat widgets, e.g. TextInputLayout -->
-        <item name="colorAccent">?android:attr/colorAccent</item>
+        <item name="colorAccent">@color/petal_settings_accent</item>
     </style>
 
     <!-- Variant of the settings theme with no action bar. -->
@@ -91,6 +93,22 @@
     </style>
 
     <style name="Theme.SubSettings.Base" parent="Theme.Settings.NoActionBar">
+        <item name="android:colorBackground">@color/petal_settings_canvas</item>
+        <item name="android:windowBackground">@color/petal_settings_canvas</item>
+        <item name="android:fontFamily">@*android:string/config_bodyFontFamily</item>
+        <item name="android:textColorPrimary">@color/petal_settings_text_states</item>
+        <item name="android:textColorSecondary">@color/petal_settings_secondary_states</item>
+        <item name="android:colorAccent">@color/petal_settings_accent</item>
+        <item name="android:colorControlNormal">@color/petal_settings_secondary</item>
+        <item name="android:colorControlActivated">@color/petal_settings_accent</item>
+        <item name="colorPrimary">@color/petal_settings_accent</item>
+        <item name="colorAccent">@color/petal_settings_accent</item>
+        <item name="colorSurface">@color/petal_settings_canvas</item>
+        <item name="colorOnSurface">@color/petal_settings_text</item>
+        <item name="colorOnSurfaceVariant">@color/petal_settings_secondary</item>
+        <item name="colorSurfaceContainer">@color/petal_settings_surface</item>
+        <item name="colorPrimaryContainer">@color/petal_settings_selected</item>
+        <item name="colorOnPrimaryContainer">@color/petal_settings_text</item>
         <!-- Redefine the ActionBar style for contentInsetStart -->
         <item name="android:actionBarStyle">@style/Widget.ActionBar.SubSettings</item>
 

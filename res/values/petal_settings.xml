@@ -8,4 +8,6 @@
     <string name="petal_settings_privacy">Privacy &amp; safety</string>
     <string name="petal_settings_system">Personal &amp; system</string>
     <dimen name="petal_settings_corner">24dp</dimen>
+    <dimen name="petal_settings_row_vertical_padding">16dp</dimen>
+    <dimen name="petal_settings_row_min_height">72dp</dimen>
 </resources>

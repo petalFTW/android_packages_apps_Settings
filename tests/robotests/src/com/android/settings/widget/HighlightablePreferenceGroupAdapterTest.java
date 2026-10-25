@@ -44,6 +44,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.settings.R;
 import com.android.settings.SettingsActivity;
 import com.android.settings.SettingsPreferenceFragment;
+import com.android.settings.bluetooth.BluetoothProgressCategory;
 
 import com.google.android.material.appbar.AppBarLayout;
 
@@ -91,6 +92,39 @@ public class HighlightablePreferenceGroupAdapterTest {
         when(mAdapter.getItem(anyInt())).thenReturn(mPreference);
         mViewHolder = PreferenceViewHolder.createInstanceForTests(
                 View.inflate(mContext, androidx.preference.R.layout.preference, null));
+    }
+
+    @Test
+    public void petalCategoryLayouts_bluetoothSpinnerStillBinds() {
+        PreferenceScreen screen = new PreferenceScreen(mContext, null);
+        BluetoothProgressCategory category = new BluetoothProgressCategory(mContext);
+        screen.addPreference(category);
+
+        PetalPreferenceStyle.applyCategoryLayouts(screen);
+
+        assertThat(category.getLayoutResource()).isEqualTo(R.layout.preference_progress_category);
+        PreferenceViewHolder holder = PreferenceViewHolder.createInstanceForTests(
+                View.inflate(mContext, category.getLayoutResource(), null));
+        category.setProgress(true);
+        category.onBindViewHolder(holder);
+        assertThat(holder.findViewById(R.id.scanning_progress).getVisibility())
+                .isEqualTo(View.VISIBLE);
+        category.setProgress(false);
+        category.onBindViewHolder(holder);
+        assertThat(holder.findViewById(R.id.scanning_progress).getVisibility())
+                .isEqualTo(View.GONE);
+    }
+
+    @Test
+    public void petalCategoryLayouts_preservesCustomCategoryLayout() {
+        PreferenceScreen screen = new PreferenceScreen(mContext, null);
+        PreferenceCategory category = new PreferenceCategory(mContext);
+        category.setLayoutResource(R.layout.preference_empty_list);
+        screen.addPreference(category);
+
+        PetalPreferenceStyle.applyCategoryLayouts(screen);
+
+        assertThat(category.getLayoutResource()).isEqualTo(R.layout.preference_empty_list);
     }
 
     @Test

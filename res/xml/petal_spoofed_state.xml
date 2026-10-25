@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2026 petalOS; SPDX-License-Identifier: Apache-2.0 -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/petal_spoof_title">
+    <Preference android:key="explanation" android:selectable="false"
+        android:summary="@string/petal_spoof_explanation" />
+    <PreferenceCategory android:title="@string/petal_spoof_reported_category">
+        <ListPreference android:key="bluetooth" android:persistent="false"
+            android:title="@string/petal_spoof_bluetooth"
+            android:entries="@array/petal_spoof_modes" android:entryValues="@array/petal_spoof_mode_values" />
+        <ListPreference android:key="location" android:persistent="false"
+            android:title="@string/petal_spoof_location"
+            android:entries="@array/petal_spoof_modes" android:entryValues="@array/petal_spoof_mode_values" />
+        <ListPreference android:key="location_permission" android:persistent="false"
+            android:title="@string/petal_spoof_location_permission"
+            android:entries="@array/petal_spoof_modes" android:entryValues="@array/petal_spoof_mode_values" />
+        <ListPreference android:key="battery" android:persistent="false"
+            android:title="@string/petal_spoof_battery"
+            android:entries="@array/petal_spoof_modes" android:entryValues="@array/petal_spoof_mode_values" />
+        <ListPreference android:key="background" android:persistent="false"
+            android:title="@string/petal_spoof_background"
+            android:entries="@array/petal_spoof_modes" android:entryValues="@array/petal_spoof_mode_values" />
+        <ListPreference android:key="standby" android:persistent="false"
+            android:title="@string/petal_spoof_standby"
+            android:entries="@array/petal_spoof_modes" android:entryValues="@array/petal_spoof_mode_values" />
+    </PreferenceCategory>
+    <Preference android:key="when_explanation" android:selectable="false"
+        android:title="@string/petal_spoof_when_title"
+        android:summary="@string/petal_spoof_when_summary" />
+    <PreferenceCategory android:title="@string/petal_spoof_real_category">
+        <Preference android:key="real_battery" android:title="@string/petal_spoof_real_battery"
+            android:summary="@string/petal_spoof_real_battery_summary" />
+        <SwitchPreferenceCompat android:key="idle_exempt" android:persistent="false"
+            android:title="@string/petal_spoof_idle_exempt"
+            android:summary="@string/petal_spoof_idle_exempt_summary" />
+    </PreferenceCategory>
+</PreferenceScreen>

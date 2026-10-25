@@ -172,6 +172,8 @@ public class AppInfoDashboardFragment extends DashboardFragment
 
         use(AppPermissionPreferenceController.class).setParentFragment(this);
         use(AppPermissionPreferenceController.class).setPackageName(packageName);
+        use(SpoofedStatePreferenceController.class).setParentFragment(this);
+        use(SpoofedStatePreferenceController.class).setPackage(packageName);
         use(ManageAgentAppFunctionAccessPreferenceController.class).setParentFragment(this);
         use(ManageTargetAppFunctionAccessPreferenceController.class).setParentFragment(this);
         use(AppSettingPreferenceController.class)
@@ -189,6 +191,11 @@ public class AppInfoDashboardFragment extends DashboardFragment
         appHibernationSettings.setPackage(packageName);
         use(AppHibernationPreferenceCategoryController.class).setChildren(
                 Arrays.asList(appHibernationSettings));
+
+        final AppNetworkAccessPreferenceController networkAccess =
+                use(AppNetworkAccessPreferenceController.class);
+        networkAccess.setParentFragment(this);
+        networkAccess.setPackage(packageName);
 
         final WriteSystemSettingsPreferenceController writeSystemSettings =
                 use(WriteSystemSettingsPreferenceController.class);

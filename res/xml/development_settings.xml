@@ -630,6 +630,11 @@
             android:summary="@string/hwui_force_dark_summary" />
 
         <SwitchPreferenceCompat
+            android:key="petal_recents_refraction"
+            android:title="@string/petal_recents_refraction_title"
+            android:summary="@string/petal_recents_refraction_summary" />
+
+        <SwitchPreferenceCompat
             android:key="enable_blurs_on_windows"
             android:title="@string/window_blurs"/>
 

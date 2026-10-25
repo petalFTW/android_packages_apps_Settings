@@ -220,6 +220,31 @@
             android:title="@string/touch_sounds_title"
             android:order="-30"/>
 
+        <com.android.settings.notification.PetalSoundPreference
+            android:key="petal_tap_sound"
+            android:title="@string/petal_tap_sound_title"
+            android:order="-29"/>
+
+        <com.android.settings.notification.PetalSoundPreference
+            android:key="petal_lock_sound"
+            android:title="@string/petal_lock_sound_title"
+            android:order="-28"/>
+
+        <com.android.settings.notification.PetalSoundPreference
+            android:key="petal_unlock_sound"
+            android:title="@string/petal_unlock_sound_title"
+            android:order="-27"/>
+
+        <com.android.settings.notification.PetalSoundPreference
+            android:key="petal_dialpad_sound"
+            android:title="@string/petal_dialpad_sound_title"
+            android:order="-26"/>
+
+        <Preference
+            android:key="reset_petal_sounds"
+            android:title="@string/petal_sound_reset_title"
+            android:order="-25"/>
+
         <!-- Show vibrate icon in status bar -->
         <SwitchPreferenceCompat
             android:key="vibrate_icon"

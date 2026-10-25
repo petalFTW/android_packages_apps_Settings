@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="petal_network_location_title">Network location</string>
+    <string name="petal_network_location_off">Off</string>
+    <string name="petal_network_location_apple">Apple (direct)</string>
+    <string name="petal_network_location_proxy">Apple (via GrapheneOS proxy)</string>
+    <string-array name="petal_network_location_entries">
+        <item>@string/petal_network_location_off</item>
+        <item>@string/petal_network_location_apple</item>
+        <item>@string/petal_network_location_proxy</item>
+    </string-array>
+    <string-array name="petal_network_location_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+</resources>

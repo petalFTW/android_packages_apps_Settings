@@ -21,6 +21,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.VisibleForTesting
+import androidx.compose.runtime.Composable
 import com.android.settings.spa.app.appinfo.AppInfoSettingsProvider
 import com.android.settingslib.core.lifecycle.HideNonSystemOverlayMixin
 import com.android.settingslib.spa.framework.BrowseActivity
@@ -36,6 +37,11 @@ class SpaActivity : BrowseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycle.addObserver(HideNonSystemOverlayMixin(this))
+    }
+
+    @Composable
+    override fun ActivityTheme(content: @Composable () -> Unit) {
+        PetalSettingsTheme(content)
     }
 
     companion object {

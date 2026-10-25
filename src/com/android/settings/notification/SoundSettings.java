@@ -139,6 +139,19 @@ public class SoundSettings extends DashboardFragment implements OnActivityResult
 
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {
+        if ("reset_petal_sounds".equals(preference.getKey())) {
+            final String[] sounds = {
+                    "petal_tap_sound", "petal_lock_sound", "petal_unlock_sound",
+                    "petal_dialpad_sound",
+            };
+            for (String sound : sounds) {
+                android.provider.Settings.System.putString(getContext().getContentResolver(),
+                        sound, null);
+                PetalSoundPreference item = (PetalSoundPreference) findPreference(sound);
+                if (item != null) item.refreshSummary();
+            }
+            return true;
+        }
         if (preference instanceof RingtonePreference) {
             writePreferenceClickMetric(preference);
             mRequestPreference = (RingtonePreference) preference;

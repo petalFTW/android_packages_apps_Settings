@@ -24,6 +24,8 @@ import android.os.Bundle
 import android.os.UserHandle
 import android.util.FeatureFlagUtils
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
@@ -35,6 +37,8 @@ import androidx.navigation.navArgument
 import com.android.settings.R
 import com.android.settings.applications.AppInfoBase
 import com.android.settings.applications.appinfo.AppInfoDashboardFragment
+import com.android.settings.applications.appinfo.SpoofedStateSettings
+import com.android.internal.app.PetalSpoofConfig
 import com.android.settings.flags.Flags
 import com.android.settings.spa.SpaActivity.Companion.startSpaActivity
 import com.android.settings.spa.app.appcompat.UserAspectRatioAppPreference
@@ -48,10 +52,14 @@ import com.android.settings.spa.app.specialaccess.WriteSystemPreferencesAppListP
 import com.android.settingslib.spa.framework.common.SettingsPageProvider
 import com.android.settingslib.spa.framework.compose.navigator
 import com.android.settingslib.spa.widget.scaffold.RegularScaffold
+import com.android.settingslib.spa.widget.preference.Preference
+import com.android.settingslib.spa.widget.preference.PreferenceModel
 import com.android.settingslib.spa.widget.ui.Category
 import com.android.settingslib.spaprivileged.model.app.toRoute
 import com.android.settingslib.spaprivileged.template.app.AppInfoProvider
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 private const val PACKAGE_NAME = "packageName"
 private const val USER_ID = "userId"
@@ -147,6 +155,7 @@ private fun AppInfoSettings(packageInfoPresenter: PackageInfoPresenter) {
             AppAllServicesPreference(app)
             AppNotificationPreference(app)
             AppPermissionPreference(app)
+            AppSpoofedStatePreference(app)
             ManageTargetAppFunctionAccessPreference(app)
             ManageAgentAppFunctionAccessPreference(app)
             AppStoragePreference(app)
@@ -181,6 +190,39 @@ private fun AppInfoSettings(packageInfoPresenter: PackageInfoPresenter) {
         }
         appInfoProvider.FooterAppVersion()
     }
+}
+
+/** The normal App Info route uses SPA; keep its entry consistent with the legacy controller. */
+@Composable
+private fun AppSpoofedStatePreference(app: ApplicationInfo) {
+    if (!android.app.Flags.petalReportedStateOverrides()) return
+    val context = LocalContext.current
+    val available by produceState(initialValue = false, context, app) {
+        value = withContext(Dispatchers.IO) {
+            try {
+                val target = context.createContextAsUser(
+                    UserHandle.of(UserHandle.getUserId(app.uid)), 0)
+                PetalSpoofConfig.eligiblePackage(target, app.packageName).applicationInfo?.uid == app.uid
+            } catch (_: android.content.pm.PackageManager.NameNotFoundException) {
+                false
+            } catch (_: RuntimeException) {
+                false
+            }
+        }
+    }
+    if (!available) return
+    Preference(object : PreferenceModel {
+        override val title = stringResource(R.string.petal_spoof_title)
+        override val summary = { context.getString(R.string.petal_spoof_summary) }
+        override val onClick = {
+            AppInfoDashboardFragment.startAppInfoFragment(
+                SpoofedStateSettings::class.java,
+                app,
+                context,
+                AppInfoSettingsProvider.METRICS_CATEGORY,
+            )
+        }
+    })
 }
 
 fun isArchivingEnabled(featureFlags: PmFeatureFlags) =

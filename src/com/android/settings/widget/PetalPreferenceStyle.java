@@ -5,16 +5,32 @@ package com.android.settings.widget;
 
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
+import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceGroupAdapter;
 import com.android.settings.R;
+import com.android.settingslib.widget.GroupSectionDividerMixin;
+import com.android.settingslib.widget.LayoutPreference;
 
-/** Surfaces follow the visible adapter, including dynamically hidden preferences. */
 public final class PetalPreferenceStyle {
     private PetalPreferenceStyle() {}
 
+    public static void applyCategoryLayouts(PreferenceGroup group) {
+        for (int i = 0; i < group.getPreferenceCount(); i++) {
+            Preference item = group.getPreference(i);
+            // Don't stomp layouts with actual widgets in them.
+            if (item instanceof PreferenceCategory
+                    && item.getLayoutResource() == androidx.preference.R.layout.preference_category) {
+                item.setLayoutResource(R.layout.petal_settings_category);
+            }
+            if (item instanceof PreferenceGroup) {
+                applyCategoryLayouts((PreferenceGroup) item);
+            }
+        }
+    }
+
     public static int background(PreferenceGroupAdapter adapter, int position, boolean selected) {
         Preference item = adapter.getItem(position);
-        if (item == null || item instanceof PreferenceCategory) return 0;
+        if (!isGroupedRow(item)) return 0;
         if ("petal_settings_hub".equals(item.getKey()) && !selected) {
             return R.drawable.petal_settings_glass;
         }
@@ -34,7 +50,12 @@ public final class PetalPreferenceStyle {
     }
 
     private static boolean sameGroup(Preference item, Preference other) {
-        return other != null && !(other instanceof PreferenceCategory)
-                && item.getParent() == other.getParent();
+        return isGroupedRow(other) && item.getParent() == other.getParent();
+    }
+
+    private static boolean isGroupedRow(Preference item) {
+        return item != null && !(item instanceof PreferenceCategory)
+                && !(item instanceof LayoutPreference)
+                && !(item instanceof GroupSectionDividerMixin);
     }
 }

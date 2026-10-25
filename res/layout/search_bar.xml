@@ -47,7 +47,7 @@
             android:layout_marginStart="8dp"
             android:paddingEnd="8dp"
             android:text="@string/homepage_search"
-            android:fontFamily="@font/petal_rubik"
+            android:fontFamily="@*android:string/config_bodyFontFamily"
             android:textColor="@color/petal_settings_secondary"/>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -8901,6 +8901,13 @@
 
     <!-- Sound: Other sounds: Title for the option enabling touch sounds. [CHAR LIMIT=30] -->
     <string name="touch_sounds_title">Tap &amp; click sounds</string>
+    <string name="petal_tap_sound_title">Tap sound</string>
+    <string name="petal_lock_sound_title">Lock sound</string>
+    <string name="petal_unlock_sound_title">Unlock sound</string>
+    <string name="petal_dialpad_sound_title">Dialpad sound</string>
+    <string name="petal_sound_reset_title">Restore default tap, lock and dialpad sounds</string>
+    <string name="petal_sound_default">System default</string>
+    <string name="petal_sound_silent">Silent</string>
 
     <!-- Sound: Other sounds: Title for the option enabling the vibrate icon. [CHAR LIMIT=50] -->
     <string name="vibrate_icon_title">Always show icon when in vibrate mode</string>
@@ -14953,4 +14960,8 @@
     <!-- Dolby Atmos top-level entry -->
     <string name="top_level_dolby_title">Dolby Atmos</string>
     <string name="top_level_dolby_summary">Spatial audio, profiles &amp; equalizer</string>
+
+    <!-- petalOS per-app network access -->
+    <string name="app_network_access_title">Network access</string>
+    <string name="app_network_access_summary">Allow this app to open network connections. Turn off to block all its traffic.</string>
 </resources>

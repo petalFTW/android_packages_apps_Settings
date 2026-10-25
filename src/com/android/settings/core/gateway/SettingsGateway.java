@@ -329,6 +329,7 @@ public class SettingsGateway {
             ChooseLockPassword.ChooseLockPasswordFragment.class.getName(),
             ChooseLockPattern.ChooseLockPatternFragment.class.getName(),
             AppInfoDashboardFragment.class.getName(),
+            com.android.settings.applications.appinfo.SpoofedStateSettings.class.getName(),
             BatterySaverSettings.class.getName(),
             AppNotificationSettings.class.getName(),
             PoliteNotificationsPreferenceFragment.class.getName(),

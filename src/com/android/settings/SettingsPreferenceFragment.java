@@ -54,6 +54,7 @@ import com.android.settings.restriction.UserRestrictionBindingHelper;
 import com.android.settings.support.actionbar.HelpResourceProvider;
 import com.android.settings.widget.HighlightablePreferenceGroupAdapter;
 import com.android.settings.widget.LoadingViewController;
+import com.android.settings.widget.PetalPreferenceStyle;
 import com.android.settingslib.CustomDialogPreferenceCompat;
 import com.android.settingslib.CustomEditTextPreferenceCompat;
 import com.android.settingslib.core.instrumentation.Instrumentable;
@@ -168,6 +169,10 @@ public abstract class SettingsPreferenceFragment extends InstrumentedPreferenceF
         final View root = super.onCreateView(inflater, container, savedInstanceState);
         mPinnedHeaderFrameLayout = root.findViewById(R.id.pinned_header);
         mAppBarLayout = getActivity().findViewById(R.id.app_bar);
+        if (!WizardManagerHelper.isAnySetupWizard(getActivity().getIntent())) {
+            root.setBackgroundColor(getContext().getColor(R.color.petal_settings_canvas));
+            setDivider(null);
+        }
         return root;
     }
 
@@ -410,8 +415,11 @@ public abstract class SettingsPreferenceFragment extends InstrumentedPreferenceF
             key = intent != null ? intent.getStringExtra(EXTRA_FRAGMENT_ARG_KEY) : null;
         }
         key = PreferenceSearchIndexablesProvider.Companion.getHighlightKey(key);
+        final boolean petalStyle = getActivity() != null
+                && !WizardManagerHelper.isAnySetupWizard(getActivity().getIntent());
+        if (petalStyle) PetalPreferenceStyle.applyCategoryLayouts(preferenceScreen);
         mAdapter = new HighlightablePreferenceGroupAdapter(preferenceScreen, key,
-                mPreferenceHighlighted);
+                mPreferenceHighlighted, petalStyle);
         return mAdapter;
     }
 
