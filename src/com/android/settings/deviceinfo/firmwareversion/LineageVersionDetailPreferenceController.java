@@ -70,7 +70,9 @@ public class LineageVersionDetailPreferenceController extends BasePreferenceCont
 
     @Override
     public CharSequence getSummary() {
-        return mContext.getString(R.string.petal_os_version_value);
+        // was a hardcoded string that nobody bumped. the prop comes straight from vendor/petal/VERSION
+        return android.os.SystemProperties.get("ro.petal.version",
+                mContext.getString(R.string.petal_os_version_value));
     }
 
     @Override
